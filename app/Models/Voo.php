@@ -9,8 +9,11 @@ class Voo extends Model
 {
     use HasFactory;
 
+<<<<<<< HEAD
     protected $table = 'voos';
 
+=======
+>>>>>>> 4080eb79e8e2f36266f7a68383f087ab626df785
     protected $fillable = [
         'numero_voo',
         'origem',
@@ -19,6 +22,7 @@ class Voo extends Model
         'horario',
         'status',
     ];
+<<<<<<< HEAD
 
     protected $guarded = ['id'];
 
@@ -26,4 +30,6 @@ class Voo extends Model
         'data_voo' => 'date',
         'horario' => 'datetime:H:i',
     ];
+=======
+>>>>>>> 4080eb79e8e2f36266f7a68383f087ab626df785
 }
