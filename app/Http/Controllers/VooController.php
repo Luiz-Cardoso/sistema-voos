@@ -2,85 +2,75 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Voo;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use App\Models\Voo;
 
 class VooController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        return response()->json(Voo::all(), Response::HTTP_OK);
+        return response()->json(Voo::all(), 200);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
-            'numero_voo' => 'required|unique:voos|string|max:10',
+            'numero_voo' => 'required|string|max:10',
             'origem' => 'required|string|max:100',
             'destino' => 'required|string|max:100',
             'data_voo' => 'required|date',
-            'horario' => 'required',
-            'status' => 'required|in:previsto,cancelado,atrasado,concluido'
+            'horario' => 'required|date_format:H:i',
+            'status' => 'required|string|max:20',
         ]);
 
-        $voo = Voo::created($request->all());
-        return response()->json($voo, Response::HTTP_CREATED);
+        $voo = Voo::create($request->all());
+
+        return response()->json($voo, 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function show($id)
     {
         $voo = Voo::find($id);
-        if(!$voo){
-            return response()->json(['message' => 'Voo não encontrado'], Response::HTTP_NOT_FOUND);
+
+        if (!$voo) {
+            return response()->json(['error' => 'Voo não encontrado'], 404);
         }
-        return response()->json($voo, Response::HTTP_OK);
+
+        return response()->json($voo, 200);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $voo = Voo::find($id);
-        if(!$voo){
-            return response()->json(['message' => 'Voo não encontrado'], Response::HTTP_NOT_FOUND);
+
+        if (!$voo) {
+            return response()->json(['error' => 'Voo não encontrado'], 404);
         }
-        
+
         $request->validate([
-            'numero_voo' => 'sometimes|string|max:10|unique:voos,numero_voo,' . $id,
-            'origem' => 'sometimes|string|max:100',
-            'destino' => 'sometimes|string|max:100',
-            'data_voo' => 'sometimes|date',
-            'horario' => 'sometimes',
-            'status' => 'sometimes|in:previsto,cancelado,atrasado,concluido'
+            'numero_voo' => 'string|max:10',
+            'origem' => 'string|max:100',
+            'destino' => 'string|max:100',
+            'data_voo' => 'date',
+            'horario' => 'date_format:H:i',
+            'status' => 'string|max:20',
         ]);
 
         $voo->update($request->all());
-        return response()->json($voo, Response::HTTP_OK);
 
+        return response()->json($voo, 200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy($id)
     {
         $voo = Voo::find($id);
-        if(!$voo){
-            return response()->json(['message' => 'Voo não encontrado'], Response::HTTP_NOT_FOUND);
+
+        if (!$voo) {
+            return response()->json(['error' => 'Voo não encontrado'], 404);
         }
 
         $voo->delete();
-        return response()->json(['message' => 'Voo removido com sucesso'], Response::HTTP_OK);
+
+        return response()->json(['message' => 'Voo excluído com sucesso'], 200);
     }
 }

@@ -13,19 +13,16 @@ return new class extends Migration
     {
         Schema::create('voos', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_voo')->unique();
-            $table->string('origem');
-            $table->string('destino');
+            $table->string('numero_voo', 10);
+            $table->string('origem', 100);
+            $table->string('destino', 100);
             $table->date('data_voo');
             $table->time('horario');
-            $table->enum('status', ['previsto', 'cancelado', 'atrasado', 'concluido']);
+            $table->string('status', 20);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('voos');
