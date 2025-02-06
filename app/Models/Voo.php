@@ -2,9 +2,19 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Voo extends Model
 {
-    //
+    use HasFactory;
+
+    protected $fillable = [
+        'numero_voo',
+        'origem',
+        'destino',
+        'data_voo',
+        'horario',
+        'status',
+    ];
 }
