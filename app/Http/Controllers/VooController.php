@@ -19,7 +19,7 @@ class VooController extends Controller
             'origem' => 'required|string|max:100',
             'destino' => 'required|string|max:100',
             'data_voo' => 'required|date',
-            'horario' => 'required|date_format:H:i',
+            'horario' => 'required|string',
             'status' => 'required|string|max:20',
         ]);
 
@@ -52,11 +52,11 @@ class VooController extends Controller
             'origem' => 'string|max:100',
             'destino' => 'string|max:100',
             'data_voo' => 'date',
-            'horario' => 'date_format:H:i',
+            'horario' => 'string',
             'status' => 'string|max:20',
         ]);
 
-        $voo->update($request->all());
+        $voo->update($request->only(['numero_voo', 'origem', 'destino', 'data_voo', 'horario', 'status']));
 
         return response()->json($voo, 200);
     }

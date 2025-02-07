@@ -23,7 +23,7 @@ class Voo extends Model
 
     protected $casts = [
         'data_voo' => 'date',
-        'horario' => 'datetime:H:i',
+        'horario' => 'string',
     ];
 
 }
